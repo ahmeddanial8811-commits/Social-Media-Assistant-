@@ -14,7 +14,6 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row">
-
     <!-- Sidebar Navigation -->
     <aside class="w-full md:w-64 glass-panel p-4 flex flex-col justify-between shrink-0">
         <div class="space-y-6">
@@ -27,7 +26,6 @@
                     <p class="text-[11px] text-slate-400">Social Master Suite</p>
                 </div>
             </div>
-
             <!-- Section Navigation Buttons -->
             <nav class="space-y-1.5" id="tabNav">
                 <button onclick="switchTab('analytics')" id="nav-analytics" class="tab-btn active w-full px-3 py-2.5 rounded-xl text-xs font-medium text-left flex items-center gap-3 transition-all border border-transparent">
@@ -48,9 +46,11 @@
                 <button onclick="switchTab('autoresponder')" id="nav-autoresponder" class="tab-btn w-full px-3 py-2.5 rounded-xl text-xs font-medium text-left text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 flex items-center gap-3 transition-all border border-transparent">
                     <i class="fa-solid fa-comments text-sm w-4"></i> AI Auto-Responder
                 </button>
+                <button onclick="switchTab('mentor')" id="nav-mentor" class="tab-btn w-full px-3 py-2.5 rounded-xl text-xs font-medium text-left text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 flex items-center gap-3 transition-all border border-transparent">
+                    <i class="fa-solid fa-robot text-sm w-4 text-indigo-400"></i> AI Social Mentor <span class="ml-auto text-[9px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded uppercase font-bold">Pro</span>
+                </button>
             </nav>
         </div>
-
         <div class="pt-4 border-t border-slate-800 space-y-2">
             <div class="flex items-center justify-between text-xs">
                 <span class="text-slate-400">Live API Status</span>
@@ -59,9 +59,9 @@
             <p class="text-[10px] text-slate-500">5 Platforms Connected & Ready</p>
         </div>
     </aside>
+
     <!-- Main Workspace Content -->
     <main class="flex-1 p-4 md:p-6 overflow-y-auto max-w-[1600px]">
-
         <!-- SECTION 1: ANALYTICS HUB -->
         <div id="tab-analytics" class="section-tab space-y-6">
             <h2 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-chart-line text-indigo-400"></i> Analytics Hub</h2>
@@ -92,7 +92,6 @@
                     <p class="text-[10px] text-emerald-400 mt-1">+31% this week</p>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 glass-panel p-5 rounded-2xl space-y-4">
                     <h3 class="font-semibold text-sm">Cross-Platform Performance Chart</h3>
@@ -230,9 +229,31 @@
             </div>
         </div>
 
+        <!-- SECTION 7: AI SOCIAL MEDIA MENTOR -->
+        <div id="tab-mentor" class="section-tab hidden space-y-6">
+            <h2 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-robot text-indigo-400"></i> AI Social Media Mentor & Strategy Coach</h2>
+            <div class="glass-panel p-5 rounded-2xl space-y-4 flex flex-col h-[550px]">
+                <div class="text-xs text-slate-300 bg-indigo-950/40 p-3 rounded-xl border border-indigo-800/40 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-yellow-400"></i> Ask me anything about building your audience, viral video hooks, posting schedules, or algorithm growth hacks!
+                </div>
+
+                <div id="chat-history" class="flex-1 overflow-y-auto space-y-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800 text-xs">
+                    <div class="bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20 max-w-[85%] text-slate-200">
+                        👋 Hello! I am your OmniPulse AI Social Media Coach. How can I help you grow your channels today?
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <input type="text" id="chat-input" placeholder="e.g. How do I get more views on YouTube Shorts?" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500" onkeypress="if(event.key === 'Enter') sendMentorMessage()">
+                    <button onclick="sendMentorMessage()" class="px-5 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-xl text-xs font-semibold text-white shadow-lg shadow-indigo-500/25">
+                        <i class="fa-solid fa-paper-plane"></i> Send
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- JavaScript Navigation Logic -->
+    <!-- JavaScript Navigation & Mentor Logic -->
     <script>
         function switchTab(tabId) {
             document.querySelectorAll('.section-tab').forEach(tab => tab.classList.add('hidden'));
@@ -242,37 +263,76 @@
             });
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             const activeBtn = document.getElementById('nav-' + tabId);
-            activeBtn.classList.add('active');
-            activeBtn.classList.remove('text-slate-400');
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.classList.remove('text-slate-400');
+            }
+        }
+
+        function sendMentorMessage() {
+            const inputField = document.getElementById('chat-input');
+            const chatHistory = document.getElementById('chat-history');
+            const userText = inputField.value.trim();
+            if (!userText) return;
+
+            // Append user message
+            chatHistory.innerHTML += `
+                <div class="ml-auto bg-slate-800 p-3 rounded-xl border border-slate-700 max-w-[85%] text-slate-200">
+                    ${userText}
+                </div>
+            `;
+            inputField.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            // Simulated Pro AI response tailored to social media coaching
+            setTimeout(() => {
+                let aiReply = "That's a great social media growth question! To boost engagement, focus on a strong hook in the first 3 seconds, use trending audio, and reply to every comment within the first hour of posting.";
+                if (userText.toLowerCase().includes('viral') || userText.toLowerCase().includes('views')) {
+                    aiReply = "For viral reach: 1) Keep your video pacing fast with visual cuts every 2-3 seconds, 2) Use curiosity gaps in your captions, and 3) Cross-post simultaneously to TikTok, Reels, and Shorts!";
+                } else if (userText.toLowerCase().includes('hook')) {
+                    aiReply = "Top high-converting hooks: 'Stop doing [common mistake] if you want [desired result]', or 'Most creators are doing this completely wrong...'";
+                }
+
+                chatHistory.innerHTML += `
+                    <div class="bg-indigo-900/30 p-3 rounded-xl border border-indigo-500/20 max-w-[85%] text-slate-200">
+                        🤖 <strong>AI Coach:</strong> ${aiReply}
+                    </div>
+                `;
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }, 800);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            const ctx1 = document.getElementById('analyticsChart').getContext('2d');
-            new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [
-                        { label: 'YouTube', data: [15000, 22000, 18000, 29000, 31000, 42000, 58000], borderColor: '#ef4444', tension: 0.4 },
-                        { label: 'TikTok', data: [28000, 41000, 45000, 52000, 61000, 80000, 110000], borderColor: '#22d3ee', tension: 0.4 },
-                        { label: 'Instagram', data: [10000, 16000, 22000, 28000, 34000, 39000, 48000], borderColor: '#ec4899', tension: 0.4 }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#94a3b8' } } } }
-            });
+            const ctx1 = document.getElementById('analyticsChart')?.getContext('2d');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [
+                            { label: 'YouTube', data: [15000, 22000, 18000, 29000, 31000, 42000, 58000], borderColor: '#ef4444', tension: 0.4 },
+                            { label: 'TikTok', data: [28000, 41000, 45000, 52000, 61000, 80000, 110000], borderColor: '#22d3ee', tension: 0.4 },
+                            { label: 'Instagram', data: [10000, 16000, 22000, 28000, 34000, 39000, 48000], borderColor: '#ec4899', tension: 0.4 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#94a3b8' } } } }
+                });
+            }
 
-            const ctx2 = document.getElementById('distributionChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['TikTok', 'YouTube', 'Instagram', 'Bilibili', 'Facebook'],
-                    datasets: [{
-                        data: [42, 28, 18, 8, 4],
-                        backgroundColor: ['#22d3ee', '#ef4444', '#ec4899', '#38bdf8', '#3b82f6']
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } } }
-            });
+            const ctx2 = document.getElementById('distributionChart')?.getContext('2d');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['TikTok', 'YouTube', 'Instagram', 'Bilibili', 'Facebook'],
+                        datasets: [{
+                            data: [42, 28, 18, 8, 4],
+                            backgroundColor: ['#22d3ee', '#ef4444', '#ec4899', '#38bdf8', '#3b82f6']
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } } }
+                });
+            }
         });
     </script>
 </body>
