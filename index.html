@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Social Media Studio & Video Editor</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Mobile-first scrolling & touch handling */
+        body { background: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .timeline-track { background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255, 255, 255, 0.15); }
+        /* Hide scrollbars for slick mobile look */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between pb-16 md:pb-0">
+
+    <!-- Top Navigation Bar -->
+    <header class="glass sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center font-bold text-white">
+                <i class="fa-solid font-bold fa-wand-magic-sparkles"></i>
+            </div>
+            <span class="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">OmniStudio AI</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                <i class="fa-solid fa-circle text-[8px] mr-1"></i> Auto-Sync Active
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 p-4 max-w-7xl mx-auto w-full space-y-6">
+
+        <!-- Mobile Navigation Tabs -->
+        <nav class="flex border-b border-slate-700 space-x-4 overflow-x-auto no-scrollbar text-sm font-medium">
+            <button onclick="switchTab('editor')" id="tab-editor" class="py-2 border-b-2 border-indigo-500 text-indigo-400 whitespace-nowrap">
+                <i class="fa-solid fa-video mr-1"></i> AI Video Editor
+            </button>
+            <button onclick="switchTab('publisher')" id="tab-publisher" class="py-2 border-b-2 border-transparent text-slate-400 whitespace-nowrap">
+                <i class="fa-solid fa-paper-plane mr-1"></i> Multi-Platform Uploader
+            </button>
+            <button onclick="switchTab('comments')" id="tab-comments" class="py-2 border-b-2 border-transparent text-slate-400 whitespace-nowrap">
+                <i class="fa-solid fa-comments mr-1"></i> AI Auto-Responder
+            </button>
+        </nav>
+
+        <!-- TAB 1: AI VIDEO EDITOR SECTION -->
+        <section id="sec-editor" class="space-y-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <!-- Live Preview Canvas -->
+                <div class="lg:col-span-2 glass rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[300px]">
+                    <div class="w-full max-w-sm aspect-[9/16] bg-slate-900 rounded-xl overflow-hidden relative border border-slate-700 flex flex-col items-center justify-center text-center p-4">
+                        <i class="fa-solid fa-film text-4xl text-indigo-400 mb-2"></i>
+                        <p class="text-xs text-slate-400">AI Preview Window (9:16 Vertical Reframing Active)</p>
+                        <!-- Dynamic Subtitle Overlay Simulation -->
+                        <div class="absolute bottom-10 px-4 py-1 bg-black/70 backdrop-blur rounded text-amber-300 font-black text-sm uppercase tracking-wide">
+                            🔥 Generating Viral Captions...
+                        </div>
+                    </div>
+                    <!-- Playback Controls -->
+                    <div class="flex items-center gap-4 mt-4">
+                        <button class="p-3 bg-indigo-600 rounded-full text-white hover:bg-indigo-500"><i class="fa-solid fa-play"></i></button>
+                        <button class="px-3 py-1 bg-slate-800 rounded-lg text-xs border border-slate-700"><i class="fa-solid fa-scissors mr-1"></i> Split Clip</button>
+                    </div>
+                </div>
+
+                <!-- AI Editing Magic Suite -->
+                <div class="glass rounded-2xl p-4 space-y-3">
+                    <h3 class="font-semibold text-sm text-indigo-300 uppercase tracking-wider">AI Studio Automation</h3>
+                    <button onclick="simulateAI('Silence Removal')" class="w-full py-2.5 px-3 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center justify-between text-xs">
+                        <span><i class="fa-solid fa-bolt text-amber-400 mr-2"></i> Auto-Cut Silences</span>
+                        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded">1-Click</span>
+                    </button>
+                    <button onclick="simulateAI('Auto Subtitles')" class="w-full py-2.5 px-3 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center justify-between text-xs">
+                        <span><i class="fa-solid fa-closed-captioning text-emerald-400 mr-2"></i> Auto-Generate Captions</span>
+                        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded">Multi-Lang</span>
+                    </button>
+                    <button onclick="simulateAI('Voice Dubbing')" class="w-full py-2.5 px-3 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center justify-between text-xs">
+                        <span><i class="fa-solid fa-microphone text-purple-400 mr-2"></i> AI Voice Clone & Dub</span>
+                        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded">40+ Voices</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Multi-Track Timeline -->
+            <div class="glass rounded-2xl p-4 space-y-2">
+                <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+                    <span>Timeline Tracks</span>
+                    <span>00:00 / 00:45</span>
+                </div>
+                <div class="space-y-2 text-xs">
+                    <div class="timeline-track p-2 rounded-lg flex items-center justify-between">
+                        <span class="w-20 text-indigo-400"><i class="fa-solid fa-video mr-1"></i> Video Track</span>
+                        <div class="flex-1 h-6 bg-indigo-900/50 rounded border border-indigo-500/30 mx-2 flex items-center px-2">Main_Clip.mp4</div>
+                    </div>
+                    <div class="timeline-track p-2 rounded-lg flex items-center justify-between">
+                        <span class="w-20 text-amber-400"><i class="fa-solid fa-font mr-1"></i> Captions</span>
+                        <div class="flex-1 h-6 bg-amber-900/40 rounded border border-amber-500/30 mx-2 flex items-center px-2">AI Subtitles</div>
+                    </div>
+                    <div class="timeline-track p-2 rounded-lg flex items-center justify-between">
+                        <span class="w-20 text-emerald-400"><i class="fa-solid fa-music mr-1"></i> BGM</span>
+                        <div class="flex-1 h-6 bg-emerald-900/40 rounded border border-emerald-500/30 mx-2 flex items-center px-2">Lo-Fi Beat (Auto Sync)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MULTI-PLATFORM UPLOADER -->
+        <section id="sec-publisher" class="hidden space-y-4">
+            <div class="glass rounded-2xl p-4 space-y-4">
+                <h3 class="font-semibold text-lg text-slate-200">Cross-Platform Publisher</h3>
+                
+                <!-- Target Platforms Picker -->
+                <div>
+                    <label class="text-xs text-slate-400 mb-2 block">Target Channels:</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                        <label class="flex items-center gap-2 p-2 bg-slate-800 rounded-lg text-xs cursor-pointer border border-slate-700">
+                            <input type="checkbox" checked class="accent-indigo-500"> <i class="fa-brands fa-youtube text-red-500"></i> YouTube Shorts
+                        </label>
+                        <label class="flex items-center gap-2 p-2 bg-slate-800 rounded-lg text-xs cursor-pointer border border-slate-700">
+                            <input type="checkbox" checked class="accent-indigo-500"> <i class="fa-brands fa-instagram text-pink-500"></i> Instagram Reels
+                        </label>
+                        <label class="flex items-center gap-2 p-2 bg-slate-800 rounded-lg text-xs cursor-pointer border border-slate-700">
+                            <input type="checkbox" checked class="accent-indigo-500"> <i class="fa-brands fa-tiktok text-cyan-400"></i> TikTok
+                        </label>
+                        <label class="flex items-center gap-2 p-2 bg-slate-800 rounded-lg text-xs cursor-pointer border border-slate-700">
+                            <input type="checkbox" checked class="accent-indigo-500"> <i class="fa-brands fa-facebook text-blue-500"></i> Facebook Reels
+                        </label>
+                        <label class="flex items-center gap-2 p-2 bg-slate-800 rounded-lg text-xs cursor-pointer border border-slate-700">
+                            <input type="checkbox" checked class="accent-indigo-500"> <i class="fa-solid fa-tv text-blue-400"></i> Bilibili
+                        </label>
+                    </div>
+                </div>
+
+                <!-- AI Content Generator Inputs -->
+                <div class="space-y-3">
+                    <input type="text" placeholder="Video Title / Topic..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500">
+                    <textarea rows="3" placeholder="Description & Hashtags..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500"></textarea>
+                </div>
+
+                <button onclick="publishToAll()" class="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 rounded-xl font-medium text-sm shadow-lg shadow-indigo-500/25">
+                    <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Upload to All 5 Platforms Simultaneously
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 3: AI AUTO-RESPONDER INBOX -->
+        <section id="sec-comments" class="hidden space-y-4">
+            <div class="glass rounded-2xl p-4 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-slate-200 text-base">Unified Social Inbox</h3>
+                    <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-1 rounded-full">
+                        <i class="fa-solid fa-robot mr-1"></i> AI Auto-Reply ON
+                    </span>
+                </div>
+
+                <!-- Comment Items -->
+                <div class="space-y-3">
+                    <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700 space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-medium text-indigo-400"><i class="fa-brands fa-youtube text-red-500 mr-1"></i> @User102</span>
+                            <span class="text-slate-400">2 min ago</span>
+                        </div>
+                        <p class="text-sm">Great editing tips! What software did you use for this transition?</p>
+                        <div class="p-2 bg-indigo-950/40 rounded border border-indigo-800/40 text-xs text-indigo-200">
+                            🤖 <span class="font-semibold">AI Drafted Reply:</span> Thanks! I edited this using OmniStudio AI's auto-reframing tools.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Tab Switcher Logic
+        function switchTab(tabName) {
+            ['editor', 'publisher', 'comments'].forEach(tab => {
+                document.getElementById(`sec-${tab}`).classList.add('hidden');
+                document.getElementById(`tab-${tab}`).classList.remove('border-indigo-500', 'text-indigo-400');
+                document.getElementById(`tab-${tab}`).classList.add('border-transparent', 'text-slate-400');
+            });
+
+            document.getElementById(`sec-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('border-indigo-500', 'text-indigo-400');
+            document.getElementById(`tab-${tabName}`).classList.remove('border-transparent', 'text-slate-400');
+        }
+
+        // Action Notifications
+        function simulateAI(action) {
+            alert(`⚡ AI Action Triggered: ${action}\nProcessing timeline layers...`);
+        }
+
+        function publishToAll() {
+            alert(`🚀 Uploading video, generating captions, and syncing across YouTube, Instagram, TikTok, Facebook, and Bilibili!`);
+        }
+    </script>
+</body>
+</html>
