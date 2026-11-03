@@ -1,0 +1,34 @@
+/*
+ * Tailwind CSS source for the OmniPulse AI dashboard.
+ *
+ * The page used to load the Tailwind Play CDN at runtime, which meant an
+ * unpinned third-party script with full control of the page and a stylesheet
+ * injected at runtime (so no strict CSP was possible). The compiled output is
+ * committed as assets/app.css; regenerate it after changing markup or classes:
+ *
+ *   npx tailwindcss@3.4.17 -c tailwind.config.js -i assets/tailwind.input.css \
+ *     -o assets/app.css --minify
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Application styles (previously an inline <style> block in index.html). */
+body {
+    background-color: #090d16;
+    color: #f1f5f9;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.glass-panel {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    border-color: transparent;
+}
